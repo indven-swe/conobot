@@ -1,0 +1,37 @@
+[package]
+name = "conobot"
+version = "0.1.0"
+description = "ConoBot - a local-first, multi-provider AI coding cockpit."
+authors = ["ConoBot contributors"]
+license = "MIT"
+repository = "https://github.com/indven-swe/conobot"
+edition = "2021"
+rust-version = "1.77.2"
+default-run = "conobot"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-global-shortcut = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time"] }
+tokio-util = "0.7"
+reqwest = { version = "0.12", default-features = false, features = ["json", "stream", "rustls-tls"] }
+futures-util = "0.3"
+open = "5"
+
+[features]
+# This feature is used for production builds where `devUrl` points to the
+# filesystem instead of the Vite dev server.
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
